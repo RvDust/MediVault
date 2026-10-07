@@ -523,6 +523,22 @@ app.post('/api/inventory/items', (req, res) => {
     }
 });
 
+// Recent dispensing transactions (for the Dispensing console)
+app.get('/api/dispensing-log', (req, res) => {
+    try {
+        const rows = db.prepare(`
+            SELECT id, item_name, lot_number, quantity, ward, authorizing_staff, timestamp
+            FROM dispensing_ledger
+            ORDER BY id DESC
+            LIMIT 10
+        `).all();
+        res.json({ success: true, data: rows });
+    } catch (err) {
+        console.error('Dispensing log error:', err);
+        res.status(500).json({ success: false, message: 'Could not fetch dispensing log.' });
+    }
+});
+
 // Get Suggested Clinical Alternatives for an Item
 app.get('/api/inventory/alternatives/:itemId', (req, res) => {
     try {

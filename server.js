@@ -957,7 +957,7 @@ app.get('/api/system/status', (req, res) => {
 });
 
 // Catch-all route to serve SPA frontend
-app.get('*', (req, res) => {
+app.use((req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 

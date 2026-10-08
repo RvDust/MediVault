@@ -1,4 +1,7 @@
-<!DOCTYPE html>
+# Build MediVault with subtle, tasteful UI design enhancements
+import os
+
+HTML_CONTENT = r'''<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -2911,3 +2914,17 @@
     </script>
 </body>
 </html>
+'''
+
+# 1. Write to public/index.html (for local Node.js server)
+pub_path = os.path.join(os.path.dirname(__file__), 'public', 'index.html')
+os.makedirs(os.path.dirname(pub_path), exist_ok=True)
+with open(pub_path, 'w', encoding='utf-8') as f:
+    f.write(HTML_CONTENT)
+
+# 2. Write to repository root ./index.html (for GitHub Pages deployment)
+root_path = os.path.join(os.path.dirname(__file__), 'index.html')
+with open(root_path, 'w', encoding='utf-8') as f:
+    f.write(HTML_CONTENT)
+
+print(f"Generated BOTH public/index.html and root index.html with refined UI styling ({len(HTML_CONTENT)} characters)")

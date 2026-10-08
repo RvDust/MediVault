@@ -923,16 +923,70 @@ app.get('/api/announcements', (req, res) => {
 
 app.post('/api/announcements', (req, res) => {
     try {
-        const { title, content, category, badge, postedBy } = req.body;
-        db.prepare(`
-            INSERT INTO announcements (title, content, category, badge, posted_by)
-            VALUES (?, ?, ?, ?, ?)
-        `).run(title, content, category || 'General', badge || 'Hospital Notice', postedBy || 'Administration');
+        const { title, content, category, badge, badgeColor, pinned, postedBy } = req.body;
+        const result = db.prepare(`
+            INSERT INTO announcements (title, content, category, badge, badge_color, pinned, posted_by)
+            VALUES (?, ?, ?, ?, ?, ?, ?)
+        `).run(
+            title, 
+            content, 
+            category || 'General', 
+            badge || (category ? `${category}` : 'Hospital Notice'), 
+            badgeColor || 'medical', 
+            pinned ? 1 : 0, 
+            postedBy || 'Administration'
+        );
 
-        res.json({ success: true, message: 'Announcement broadcasted successfully.' });
+        res.json({ success: true, message: 'Announcement broadcasted successfully.', id: result.lastInsertRowid });
     } catch (err) {
         console.error('Post announcement error:', err);
         res.status(500).json({ success: false, message: 'Could not post announcement.' });
+    }
+});
+
+app.put('/api/announcements/:id', (req, res) => {
+    try {
+        const { id } = req.params;
+        const { title, content, category, badge, badgeColor, pinned, postedBy } = req.body;
+        const result = db.prepare(`
+            UPDATE announcements
+            SET title = ?, content = ?, category = ?, badge = ?, badge_color = ?, pinned = ?, posted_by = ?
+            WHERE id = ?
+        `).run(
+            title,
+            content,
+            category || 'General',
+            badge || (category ? `${category}` : 'Hospital Notice'),
+            badgeColor || 'medical',
+            pinned ? 1 : 0,
+            postedBy || 'Administration',
+            id
+        );
+
+        if (result.changes === 0) {
+            return res.status(404).json({ success: false, message: 'Announcement not found.' });
+        }
+
+        res.json({ success: true, message: 'Announcement updated successfully.' });
+    } catch (err) {
+        console.error('Update announcement error:', err);
+        res.status(500).json({ success: false, message: 'Could not update announcement.' });
+    }
+});
+
+app.delete('/api/announcements/:id', (req, res) => {
+    try {
+        const { id } = req.params;
+        const result = db.prepare('DELETE FROM announcements WHERE id = ?').run(id);
+
+        if (result.changes === 0) {
+            return res.status(404).json({ success: false, message: 'Announcement not found.' });
+        }
+
+        res.json({ success: true, message: 'Announcement deleted successfully.' });
+    } catch (err) {
+        console.error('Delete announcement error:', err);
+        res.status(500).json({ success: false, message: 'Could not delete announcement.' });
     }
 });
 

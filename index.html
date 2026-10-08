@@ -47,13 +47,9 @@
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
 
-        /* Subtle clinical mesh canvas with soft ambient glow */
+        /* Clean, professional clinical background */
         .clinical-canvas {
             background-color: #f8fafc;
-            background-image: 
-                radial-gradient(circle at 50% 0%, rgba(14, 165, 233, 0.035) 0%, transparent 60%),
-                radial-gradient(#e2e8f0 0.75px, transparent 0.75px);
-            background-size: 100% 100%, 20px 20px;
         }
 
         /* Refined glassmorphism header */
@@ -110,23 +106,9 @@
             box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.15) !important;
         }
 
-        /* Subtle pulse beacons */
-        @keyframes pulseGlow {
-            0%, 100% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.3); opacity: 0.7; }
-        }
+        /* Clean status indicators */
         .sync-beacon {
-            animation: pulseGlow 2.4s infinite ease-in-out;
-        }
-
-        /* Optical laser sweep */
-        @keyframes scanLaser {
-            0% { top: 8%; opacity: 0.75; }
-            50% { top: 88%; opacity: 1; }
-            100% { top: 8%; opacity: 0.75; }
-        }
-        .scan-laser {
-            animation: scanLaser 2.2s ease-in-out infinite;
+            display: inline-block;
         }
     </style>
 </head>
@@ -221,17 +203,6 @@
                             </div>
                         </div>
 
-                        <div>
-                            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">ACCESS ROLE PROFILE</label>
-                            <select id="login-role" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 bg-slate-50/50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-medical-600/30 focus:border-medical-600 text-xs transition-all font-medium">
-                                <option value="Senior Medical Officer (Full Access)">Senior Medical Officer (Full Access)</option>
-                                <option value="Lead Pharmacist / Inventory Manager">Lead Pharmacist / Inventory Manager</option>
-                                <option value="Emergency Room Nurse">Emergency Room Nurse</option>
-                                <option value="Hospital Operations Administrator">Hospital Operations Administrator (MFA Required)</option>
-                                <option value="Director of Hospital Financial Operations">Director of Hospital Financial Operations (MFA Required)</option>
-                            </select>
-                        </div>
-
                         <div class="flex items-center justify-between text-xs pt-1">
                             <label class="flex items-center gap-2 text-slate-600 cursor-pointer select-none">
                                 <input type="checkbox" checked class="rounded border-slate-300 text-medical-600 focus:ring-medical-500">
@@ -255,6 +226,7 @@
                             <button type="button" onclick="fillDemoCreds('pharm.j.miller')" class="text-medical-600 font-semibold hover:underline">Pharmacist</button>
                             <button type="button" onclick="fillDemoCreds('nurse.clara.reyes')" class="text-medical-600 font-semibold hover:underline">Nurse</button>
                             <button type="button" onclick="fillDemoCreds('admin.root')" class="text-medical-600 font-semibold hover:underline">Admin</button>
+                            <button type="button" onclick="fillDemoCreds('finance.director')" class="text-medical-600 font-semibold hover:underline">Finance</button>
                         </div>
                     </div>
                 </div>
@@ -316,13 +288,6 @@
                         </div>
                         <div class="text-[10px] text-slate-400 font-medium">Enterprise Clinical Platform</div>
                     </div>
-                    <span class="hidden lg:inline-flex items-center gap-1.5 px-2.5 py-0.5 ml-2 rounded-full text-[11px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200/80">
-                        <span class="relative flex h-2 w-2">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                        </span>
-                        <span>All Nodes Synced (99.98% SLA)</span>
-                    </span>
                 </div>
             </div>
 
@@ -344,7 +309,7 @@
                 <div class="flex items-center gap-3">
                     <div class="text-right hidden sm:block">
                         <div id="header-user-name" class="text-xs font-bold text-slate-800">dr.elena.vance</div>
-                        <div id="header-user-role" class="text-[11px] text-slate-500 font-medium">Senior Medical Officer (Full Access)</div>
+                        <div id="header-user-role" class="text-[11px] text-slate-500 font-medium">Senior Medical Officer</div>
                     </div>
                     <button onclick="switchScreen('user-profile')" id="header-avatar"
                         class="w-8 h-8 rounded-full bg-gradient-to-tr from-medical-700 to-cyan-600 text-white font-bold text-xs flex items-center justify-center shadow-xs hover:scale-105 transition-transform" title="View Profile">
@@ -451,16 +416,6 @@
                     </div>
                 </div>
 
-                <!-- Footer System Node Status -->
-                <div class="p-3.5 border-t border-slate-100 bg-slate-50/70">
-                    <div class="flex items-center justify-between text-xs text-slate-500 mb-1.5">
-                        <span class="font-medium text-[11px]">Database Engine</span>
-                        <span class="text-emerald-600 font-bold text-[11px]">99.98% SLA</span>
-                    </div>
-                    <div class="w-full bg-slate-200/80 h-1.5 rounded-full overflow-hidden">
-                        <div class="bg-gradient-to-r from-emerald-500 to-teal-500 h-full w-[95%] rounded-full"></div>
-                    </div>
-                </div>
             </aside>
 
             <!-- Main Scrollable Screen Content -->
@@ -482,79 +437,57 @@
                         </button>
                     </div>
 
-                    <!-- Optical Barcode & RFID Scanner Hub (Wireframe Page 9) -->
-                    <div class="med-card p-5 space-y-4">
-                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                            <div>
-                                <h3 class="text-sm font-bold text-slate-900 flex items-center gap-2">
-                                    <i class="fa-solid fa-barcode text-medical-600"></i>
-                                    <span>GS1 Optical Barcode & RFID Scanner Hub</span>
-                                </h3>
-                                <p class="text-xs text-slate-500">Simulate optical scanning or enter NDC code to inspect stock, verify lot purity & deduct directly.</p>
+                    <!-- Barcode & Item Verification (Wireframe Page 9) -->
+                    <div class="med-card p-5">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-medical-50 border border-medical-200 text-medical-700 flex items-center justify-center text-lg shrink-0">
+                                    <i class="fa-solid fa-barcode"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-sm font-bold text-slate-900">GS1 Barcode & Item Verification</h3>
+                                    <p class="text-xs text-slate-500">Scan or select an NDC item to verify expiration, lot integrity, and stock levels.</p>
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- Precision High-Tech Optical Viewfinder Panel -->
-                        <div class="relative bg-slate-950 rounded-2xl p-4 md:p-5 overflow-hidden border border-slate-800/90 text-white shadow-inner">
-                            <!-- Reticle corner brackets -->
-                            <div class="absolute top-2.5 left-2.5 w-3.5 h-3.5 border-t-2 border-l-2 border-cyan-400 rounded-tl-xs pointer-events-none"></div>
-                            <div class="absolute top-2.5 right-2.5 w-3.5 h-3.5 border-t-2 border-r-2 border-cyan-400 rounded-tr-xs pointer-events-none"></div>
-                            <div class="absolute bottom-2.5 left-2.5 w-3.5 h-3.5 border-b-2 border-l-2 border-cyan-400 rounded-bl-xs pointer-events-none"></div>
-                            <div class="absolute bottom-2.5 right-2.5 w-3.5 h-3.5 border-b-2 border-r-2 border-cyan-400 rounded-br-xs pointer-events-none"></div>
-                            
-                            <!-- Optical laser beam sweep line -->
-                            <div class="absolute inset-x-6 h-0.5 bg-gradient-to-r from-transparent via-cyan-400 to-transparent scan-laser shadow-[0_0_10px_rgba(34,211,238,0.9)] pointer-events-none"></div>
-
-                            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative z-10">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-10 h-10 rounded-xl bg-cyan-950/80 border border-cyan-700/50 flex items-center justify-center text-cyan-400 shadow-sm">
-                                        <i class="fa-solid fa-qrcode text-lg"></i>
-                                    </div>
-                                    <div>
-                                        <div class="flex items-center gap-2">
-                                            <span class="text-xs font-mono font-bold text-cyan-300">OPTICAL GS1-128 / RFID SENSOR</span>
-                                            <span class="inline-flex items-center gap-1 px-1.5 py-0.2 rounded text-[9px] font-mono font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
-                                                <span class="w-1 h-1 rounded-full bg-emerald-400 animate-ping"></span>
-                                                READY
-                                            </span>
-                                        </div>
-                                        <div class="text-[11px] text-slate-400 font-mono mt-0.5">CMOS 60FPS • FOCUS LOCKED • ISO/IEC 15415 COMPLIANT</div>
-                                    </div>
-                                </div>
-
-                                <div class="flex items-center gap-2 w-full sm:w-auto">
-                                    <select id="scanner-preset" class="flex-1 sm:flex-initial px-3 py-2 rounded-xl border border-slate-700 text-xs bg-slate-900 text-slate-200 focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-500 transition-all font-mono">
-                                        <option value="004-981-22">004-981-22 | Epinephrine 1mg/mL Auto-Inj</option>
-                                        <option value="012-774-88">012-774-88 | Propofol Emulsion 20mL Vial</option>
-                                        <option value="008-312-09">008-312-09 | Surgical N95 Respirators (Box 20)</option>
-                                        <option value="019-442-12">019-442-12 | Heparin Sodium 5,000 U/mL</option>
-                                        <option value="040-911-33">040-911-33 | Morphine Sulfate 10mg/mL</option>
-                                    </select>
-                                    <button type="button" onclick="simulateScanItem()" class="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 active:scale-[0.98] text-slate-950 text-xs font-bold rounded-xl shadow-sm transition-all flex items-center gap-1.5 whitespace-nowrap">
-                                        <i class="fa-solid fa-expand text-xs"></i>
-                                        <span>Simulate Scan</span>
-                                    </button>
-                                </div>
+                            <div class="flex items-center gap-2.5 w-full md:w-auto">
+                                <select id="scanner-preset" class="flex-1 md:w-72 px-3 py-2 rounded-xl border border-slate-300 text-xs bg-white text-slate-800 focus:outline-none focus:ring-2 focus:ring-medical-600/30">
+                                    <option value="004-981-22">004-981-22 | Epinephrine 1mg/mL Auto-Inj</option>
+                                    <option value="012-774-88">012-774-88 | Propofol Emulsion 20mL Vial</option>
+                                    <option value="008-312-09">008-312-09 | Surgical N95 Respirators (Box 20)</option>
+                                    <option value="019-442-12">019-442-12 | Heparin Sodium 5,000 U/mL</option>
+                                    <option value="040-911-33">040-911-33 | Morphine Sulfate 10mg/mL</option>
+                                </select>
+                                <button type="button" onclick="simulateScanItem()" class="px-4 py-2 bg-slate-900 hover:bg-slate-800 active:scale-95 text-white text-xs font-semibold rounded-xl shadow-xs transition-all flex items-center gap-1.5 whitespace-nowrap">
+                                    <i class="fa-solid fa-barcode text-xs"></i>
+                                    <span>Scan Item</span>
+                                </button>
                             </div>
                         </div>
 
                         <!-- Scan Feedback Display -->
-                        <div id="scan-feedback-box" class="hidden p-4 rounded-xl bg-slate-50/80 border border-slate-200/90 text-xs space-y-2.5">
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-2">
-                                    <i class="fa-solid fa-circle-check text-emerald-500 text-base"></i>
-                                    <span id="scan-item-title" class="font-bold text-slate-900 text-sm">--</span>
+                        <div id="scan-feedback-box" class="hidden mt-4 pt-4 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-600 border border-emerald-200 flex items-center justify-center shrink-0">
+                                    <i class="fa-solid fa-check text-sm"></i>
                                 </div>
-                                <span id="scan-item-badge" class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-cyan-50 text-cyan-800 border border-cyan-200">Verified GS1 Vial</span>
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <span id="scan-item-title" class="font-bold text-slate-900 text-sm">--</span>
+                                        <span id="scan-item-badge" class="px-2 py-0.2 rounded text-[10px] font-semibold bg-sky-50 text-sky-700 border border-sky-200">Verified</span>
+                                    </div>
+                                    <div class="text-slate-500 text-xs mt-0.5">
+                                        <span id="scan-item-meta">NDC: --</span> • 
+                                        <span id="scan-item-stock" class="font-semibold text-slate-700">Total Stock: -- units</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div id="scan-item-meta" class="text-slate-500 font-mono text-[11px]">NDC: -- • Verified Authenticated GS1 Vial • Lot: --</div>
-                            <div id="scan-item-stock" class="text-slate-700 font-semibold text-xs">Total Stock: -- units</div>
-                            <div id="scan-item-alternatives" class="hidden text-amber-800 bg-amber-50/90 p-2.5 rounded-xl text-[11px] font-medium border border-amber-200">
-                                <i class="fa-solid fa-triangle-exclamation mr-1.5 text-amber-600"></i>Low Stock Alert: Clinical alternatives available in hospital formulary.
+                            <div id="scan-item-alternatives" class="hidden text-amber-800 bg-amber-50 px-3 py-1.5 rounded-lg text-xs border border-amber-200">
+                                <i class="fa-solid fa-triangle-exclamation mr-1 text-amber-600"></i>Low Stock Suggestion Available
                             </div>
-                            <button onclick="quickDeductFromScan()" class="bg-gradient-to-r from-medical-700 to-medical-600 hover:from-medical-600 hover:to-medical-500 active:scale-[0.99] text-white font-bold py-2.5 px-4 rounded-xl text-xs transition-all flex items-center gap-2 shadow-xs shadow-medical-900/10">
+                            <button onclick="quickDeductFromScan()" class="bg-medical-700 hover:bg-medical-600 active:scale-95 text-white font-semibold py-2 px-3.5 rounded-xl text-xs transition-all flex items-center gap-1.5 self-start sm:self-auto shrink-0 shadow-xs">
                                 <i class="fa-solid fa-minus text-xs"></i>
-                                <span>Deduct 1 Unit Directly From Vault</span>
+                                <span>Deduct 1 Unit</span>
                             </button>
                         </div>
                     </div>
@@ -611,7 +544,7 @@
                                 <h2 id="profile-display-name" class="text-xl font-bold text-slate-900 tracking-tight">Dr. Elena Vance, MD, FACP</h2>
                                 <p id="profile-display-meta" class="text-xs text-slate-500 mt-0.5">Badge ID: #MV-STF-0192 • Department: Critical Care & ICU</p>
                                 <span id="profile-display-role" class="inline-block mt-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-medical-50 text-medical-700 border border-medical-200">
-                                    Senior Medical Officer Schedule II / Narcotics Clearance
+                                    Senior Medical Officer
                                 </span>
                             </div>
                         </div>
@@ -667,40 +600,22 @@
                 <!-- 3. VIEW: ANNOUNCEMENTS (Page 10 top)           -->
                 <!-- ============================================== -->
                 <section id="view-announcements" class="screen-view hidden space-y-5">
-                    <div>
-                        <span class="text-[11px] font-bold uppercase tracking-wider text-medical-600">Bulletin Board</span>
-                        <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Hospital & MediVault System Announcements</h2>
-                        <p class="text-xs text-slate-500 mt-0.5">Official clinical updates, supply chain maintenance windows, and policy revisions.</p>
+                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+                        <div>
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-medical-600">Bulletin Board</span>
+                            <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Hospital & MediVault System Announcements</h2>
+                            <p class="text-xs text-slate-500 mt-0.5">Official clinical updates, supply chain maintenance windows, and policy revisions.</p>
+                        </div>
+                        <div id="announcement-admin-actions" class="hidden">
+                            <button onclick="openAnnouncementModal()" class="bg-medical-700 hover:bg-medical-600 active:scale-95 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-xs transition-all flex items-center gap-2">
+                                <i class="fa-solid fa-plus"></i>
+                                <span>Post Announcement</span>
+                            </button>
+                        </div>
                     </div>
 
                     <div id="announcements-feed" class="space-y-3.5">
-                        <!-- Pinned Notice 1 (Wireframe Page 10) -->
-                        <div class="med-card border-rose-200/90 p-5">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-rose-50 text-rose-700 border border-rose-200">
-                                    Pinned • Pharmacy Operations
-                                </span>
-                                <span class="text-xs text-slate-400">Today, 07:15 AM</span>
-                            </div>
-                            <h3 class="font-bold text-slate-900 text-sm mb-1">Mandatory Quarterly GS1 Barcode Audit (All Wards)</h3>
-                            <p class="text-xs text-slate-600 leading-relaxed font-normal">
-                                All ICU and ER charge nurses are required to complete handheld barcode spot-audits before Friday shift change. Expiring vials (Lot #HEP-8819) have been flagged for centralized return.
-                            </p>
-                        </div>
-
-                        <!-- Maintenance Notice 2 (Wireframe Page 10) -->
-                        <div class="med-card border-amber-200/90 p-5">
-                            <div class="flex items-center justify-between mb-2">
-                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">
-                                    Scheduled Maintenance
-                                </span>
-                                <span class="text-xs text-slate-400">Yesterday</span>
-                            </div>
-                            <h3 class="font-bold text-slate-900 text-sm mb-1">MediVault v4.8 Cloud Vault Synchronization Window</h3>
-                            <p class="text-xs text-slate-600 leading-relaxed font-normal">
-                                The inventory synchronization engine will undergo a 15-minute optimization cycle this Saturday at 02:00 AM UTC. Offline barcode scanning will buffer locally without clinical interruption.
-                            </p>
-                        </div>
+                        <!-- Populated dynamically via renderAnnouncements() -->
                     </div>
                 </section>
 
@@ -1481,6 +1396,67 @@
         </div>
     </div>
 
+    <!-- Announcement Add / Edit Modal (announcement-modal) -->
+    <div id="announcement-modal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-200">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-7 h-7 rounded-lg bg-medical-50 text-medical-600 flex items-center justify-center text-xs">
+                        <i class="fa-solid fa-bullhorn"></i>
+                    </div>
+                    <h3 id="announcement-modal-title" class="font-bold text-slate-900 text-base">New System Announcement</h3>
+                </div>
+                <button onclick="closeModal('announcement-modal')" class="text-slate-400 hover:text-slate-600">
+                    <i class="fa-solid fa-xmark text-base"></i>
+                </button>
+            </div>
+            <form id="form-announcement" onsubmit="handleAnnouncementSubmit(event)" class="space-y-3.5 text-xs">
+                <input type="hidden" id="announce-edit-id" value="">
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Announcement Title</label>
+                    <input id="announce-title" type="text" placeholder="e.g. Mandatory Quarterly GS1 Barcode Audit" required class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-medical-500">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Category</label>
+                        <select id="announce-category" class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-medical-500 bg-white">
+                            <option value="Pharmacy Operations">Pharmacy Operations</option>
+                            <option value="System Maintenance">System Maintenance</option>
+                            <option value="Regulatory & PhilHealth">Regulatory & PhilHealth</option>
+                            <option value="Clinical Policy">Clinical Policy</option>
+                            <option value="Emergency Alert">Emergency Alert</option>
+                            <option value="General Notice">General Notice</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Badge Color Tone</label>
+                        <select id="announce-badge-color" class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-medical-500 bg-white">
+                            <option value="medical">Medical Blue (Primary)</option>
+                            <option value="rose">Rose (Urgent/Critical)</option>
+                            <option value="amber">Amber (Maintenance/Warning)</option>
+                            <option value="emerald">Emerald (Regulatory/Approved)</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-700 mb-1">Content / Advisory Message</label>
+                    <textarea id="announce-content" rows="4" placeholder="Detail the clinical or administrative advisory directive..." required class="w-full px-3 py-2 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-medical-500"></textarea>
+                </div>
+                <div class="flex items-center gap-2 pt-1">
+                    <input type="checkbox" id="announce-pinned" class="rounded border-slate-300 text-medical-600 focus:ring-medical-500">
+                    <label for="announce-pinned" class="font-medium text-slate-700 cursor-pointer">Pin to top of hospital bulletin feed</label>
+                </div>
+                <div class="pt-2 flex justify-end gap-2 border-t border-slate-100">
+                    <button type="button" onclick="closeModal('announcement-modal')" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 font-semibold hover:bg-slate-50 transition-colors">Cancel</button>
+                    <button type="submit" id="announce-submit-btn" class="px-4 py-2 rounded-xl bg-medical-700 hover:bg-medical-600 text-white font-semibold transition-colors flex items-center gap-1.5">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <span>Save Announcement</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <!-- ======================================================== -->
     <!-- DYNAMIC JAVASCRIPT APPLICATION LOGIC                     -->
     <!-- Supports both live Node.js server AND static GitHub Pages-->
@@ -1528,6 +1504,42 @@
             { batch_id: 5, item_id: 5, item_name: 'Morphine Sulfate 10mg/mL', generic_name: 'Morphine Sulfate', ndc_code: '040-911-33', category: 'Analgesics / Narcotics', ward: 'Central Pharmacy Vault', lot_number: 'MS-2026A', expiration_date: '2027-05-20', batch_quantity: 24, total_vault_stock: 24, min_reorder_level: 10, batch_status: 'Optimal' }
         ];
 
+        const STATIC_ANNOUNCEMENTS = [
+            {
+                id: 1,
+                title: 'Mandatory Quarterly GS1 Barcode Audit (All Wards)',
+                content: 'All ICU and ER charge nurses are required to complete handheld barcode spot-audits before Friday shift change. Expiring vials (Lot #HEP-8810) have been flagged for centralized return.',
+                category: 'Pharmacy Operations',
+                badge: 'Pinned • Pharmacy Operations',
+                badge_color: 'rose',
+                pinned: 1,
+                posted_by: 'Pharm. Julian Miller',
+                created_at: 'Today, 07:15 AM'
+            },
+            {
+                id: 2,
+                title: 'MediVault v4.8 Cloud Vault Synchronization Window',
+                content: 'The inventory synchronization engine will undergo a 15-minute optimization cycle this Saturday at 02:00 AM UTC. Offline barcode scanning will buffer locally without clinical interruption.',
+                category: 'System Maintenance',
+                badge: 'Scheduled Maintenance',
+                badge_color: 'amber',
+                pinned: 0,
+                posted_by: 'Roberto Cruz (IT Admin)',
+                created_at: 'Yesterday'
+            },
+            {
+                id: 3,
+                title: 'DOH Dangerous Drugs Board Compliance Circular #2026-09',
+                content: 'Mandatory dual-practitioner signoff is now active for all Schedule II dispensations (Morphine, Propofol). Verifiable blockchain SHA-256 hashes are automatically generated upon deduction.',
+                category: 'Regulatory & PhilHealth',
+                badge: 'Regulatory Advisory',
+                badge_color: 'emerald',
+                pinned: 1,
+                posted_by: 'Hospital Administration',
+                created_at: '2 days ago'
+            }
+        ];
+
         const STATIC_CATALOG = [
             { id: 1, ndc_code: '004-981-22', item_name: 'Epinephrine 1mg/mL Auto-Inj', category: 'Emergency / Vasoactive', unit_cost: 30.00, total_vault_stock: 48, min_reorder_level: 15 },
             { id: 2, ndc_code: '012-774-88', item_name: 'Propofol Emulsion 20mL Vial', category: 'Anesthetics', unit_cost: 38.33, total_vault_stock: 6, min_reorder_level: 12 },
@@ -1547,24 +1559,31 @@
         let pendingMfaUser = null;
         let cachedInventory = [...STATIC_INVENTORY];
         let cachedCatalog = [...STATIC_CATALOG];
+        let cachedAnnouncements = [...STATIC_ANNOUNCEMENTS];
         let lastScannedItem = null;
 
         // Demo Credentials Loader matching Wireframe Page 8
         function fillDemoCreds(username) {
             document.getElementById('login-user').value = username;
             document.getElementById('login-pass').value = 'EnterpriseVault2026!';
-
-            const roleSelect = document.getElementById('login-role');
-            if (username === 'dr.elena.vance') {
-                roleSelect.value = 'Senior Medical Officer (Full Access)';
-            } else if (username === 'pharm.j.miller') {
-                roleSelect.value = 'Lead Pharmacist / Inventory Manager';
-            } else if (username === 'nurse.clara.reyes') {
-                roleSelect.value = 'Emergency Room Nurse';
-            } else if (username === 'admin.root') {
-                roleSelect.value = 'Hospital Operations Administrator';
-            }
             showToast('Loaded demo credentials for ' + username, 'info');
+        }
+
+        function isBackendAvailable() {
+            return (window.location.protocol === 'http:' || window.location.protocol === 'https:') && !window.location.hostname.includes('github.io');
+        }
+
+        async function quickFetch(url, options = {}, timeoutMs = 800) {
+            if (!isBackendAvailable()) return null;
+            try {
+                const controller = new AbortController();
+                const timer = setTimeout(() => controller.abort(), timeoutMs);
+                const res = await fetch(url, { ...options, signal: controller.signal });
+                clearTimeout(timer);
+                return res;
+            } catch (err) {
+                return null;
+            }
         }
 
         async function handleLogin(e) {
@@ -1576,15 +1595,17 @@
             btn.disabled = true;
             btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1.5"></i> Authenticating...`;
 
-            // Try Node backend if available
-            try {
-                const res = await fetch('/api/auth/login', {
+            const fallbackUser = STATIC_USERS[username];
+
+            // 1. Try Node backend if running on an active web server (with strict 800ms timeout)
+            if (isBackendAvailable()) {
+                const res = await quickFetch('/api/auth/login', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ username, password })
-                });
+                }, 800);
 
-                if (res.ok) {
+                if (res && res.ok) {
                     const data = await res.json();
                     if (data.requireMfa) {
                         pendingMfaUser = data.username;
@@ -1600,13 +1621,10 @@
                     establishSession(data.user);
                     return;
                 }
-            } catch (err) {
-                // Network error / static host (e.g. GitHub Pages) fallback
             }
 
-            // Static fallback for GitHub Pages
-            const fallbackUser = STATIC_USERS[username];
-            if (fallbackUser) {
+            // 2. Instant static authentication (file://, GitHub Pages, or fast-fallback)
+            if (fallbackUser && (password === 'EnterpriseVault2026!' || password === 'password123' || !password)) {
                 if (fallbackUser.mfaRequired) {
                     pendingMfaUser = username;
                     document.getElementById('login-primary-box').classList.add('hidden');
@@ -1631,14 +1649,14 @@
             e.preventDefault();
             const code = document.getElementById('mfa-code').value.trim();
 
-            try {
-                const res = await fetch('/api/auth/verify-mfa', {
+            if (isBackendAvailable()) {
+                const res = await quickFetch('/api/auth/verify-mfa', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ username: pendingMfaUser, code })
-                });
+                }, 800);
 
-                if (res.ok) {
+                if (res && res.ok) {
                     const data = await res.json();
                     if (data.success) {
                         showToast('MFA verification successful!', 'success');
@@ -1646,8 +1664,6 @@
                         return;
                     }
                 }
-            } catch (err) {
-                // Static host fallback
             }
 
             if (code && code.length === 6 && STATIC_USERS[pendingMfaUser]) {
@@ -1665,12 +1681,222 @@
             document.getElementById('login-primary-box').classList.remove('hidden');
         }
 
+        const SCREEN_NAMES = {
+            'staff-portal': 'Hospital Staff Portal',
+            'user-profile': 'User Profile',
+            'announcements': 'Announcements',
+            'quick-links': 'Quick Links',
+            'inv-user-access': 'User Access Management',
+            'inv-dispensing': 'Dispensing & Stock Module',
+            'inv-analytics': 'Analytics & Reporting',
+            'inventory-catalog': 'Inventory Catalog',
+            'appointment-form': 'Appointment Form',
+            'booking-form': 'Booking & Equipment Form',
+            'employee-management': 'Employee Management',
+            'financial-reports': 'Financial Reports',
+            'inventory-reports': 'Inventory Reports'
+        };
+
+        const ROLE_PERMISSIONS = {
+            nurse: {
+                name: 'ER Staff Nurse',
+                tier: 'Tier 2 (Ward Clinical)',
+                clearanceTitle: 'Ward Clinical Access',
+                scopeText: 'Authorized for ward requisitions, bedside scanning, patient appointments, and bed booking.',
+                defaultScreen: 'staff-portal',
+                allowedScreens: [
+                    'staff-portal',
+                    'user-profile',
+                    'announcements',
+                    'quick-links',
+                    'appointment-form',
+                    'booking-form'
+                ],
+                deniedReason: 'Pharmacy vault management, formulary modification, and administrative controls require Tier 4+ license.'
+            },
+            doctor: {
+                name: 'Senior Medical Officer',
+                tier: 'Tier 4 (Full Clinical Authorizer)',
+                clearanceTitle: 'Clinical Authorizer Access',
+                scopeText: 'Full clinical authorization for medications, Schedule II narcotics authorizer, surgical bookings, and clinical audits.',
+                defaultScreen: 'staff-portal',
+                allowedScreens: [
+                    'staff-portal',
+                    'user-profile',
+                    'announcements',
+                    'quick-links',
+                    'inv-dispensing',
+                    'inventory-catalog',
+                    'appointment-form',
+                    'booking-form',
+                    'inventory-reports'
+                ],
+                deniedReason: 'IT user provisioning, HR employee files, and fiscal ledger require Administrator or Finance Director clearance.'
+            },
+            pharmacist: {
+                name: 'Lead Pharmacist',
+                tier: 'Tier 4 (Pharmacy Master)',
+                clearanceTitle: 'Pharmacy Master Vault Access',
+                scopeText: 'Full central pharmacy vault control, formulary catalog, dispensing, and inventory reports.',
+                defaultScreen: 'inv-dispensing',
+                allowedScreens: [
+                    'staff-portal',
+                    'user-profile',
+                    'announcements',
+                    'quick-links',
+                    'inv-dispensing',
+                    'inventory-catalog',
+                    'inv-analytics',
+                    'inventory-reports'
+                ],
+                deniedReason: 'Clinical ward appointment schedules, executive accounting, and IT user security require respective department clearance.'
+            },
+            finance: {
+                name: 'Director of Hospital Financial Operations',
+                tier: 'Tier 4 (Financial Oversight)',
+                clearanceTitle: 'Financial & Audit Access',
+                scopeText: 'Full oversight over medication expenditure, hospital procurement budgets, inventory valuation, and cost analytics.',
+                defaultScreen: 'financial-reports',
+                allowedScreens: [
+                    'financial-reports',
+                    'inv-analytics',
+                    'inventory-reports',
+                    'inventory-catalog',
+                    'user-profile',
+                    'announcements',
+                    'quick-links'
+                ],
+                deniedReason: 'Bedside ward care, clinical patient triage, and medication dispensing require licensed clinical credentials.'
+            },
+            admin: {
+                name: 'Hospital Operations Administrator',
+                tier: 'Tier 5 (Super Administrator)',
+                clearanceTitle: 'Super Administrator Access',
+                scopeText: 'Unrestricted full access across all clinical, inventory, financial, security, and staff systems.',
+                defaultScreen: 'inv-user-access',
+                allowedScreens: [
+                    'staff-portal',
+                    'user-profile',
+                    'announcements',
+                    'quick-links',
+                    'inv-user-access',
+                    'inv-dispensing',
+                    'inv-analytics',
+                    'inventory-catalog',
+                    'appointment-form',
+                    'booking-form',
+                    'employee-management',
+                    'financial-reports',
+                    'inventory-reports'
+                ],
+                deniedReason: ''
+            }
+        };
+
+        function applyRolePermissions(user) {
+            const role = (user && user.role) ? user.role : 'doctor';
+            const perms = ROLE_PERMISSIONS[role] || ROLE_PERMISSIONS.doctor;
+
+            // 1. Header Role Text (clean staff position title without extra labels)
+            const headerRole = document.getElementById('header-user-role');
+            if (headerRole) {
+                headerRole.textContent = user.roleTitle || perms.name;
+            }
+
+            // 2. Announcements Admin Action Controls (Admin-only add/edit/delete)
+            const announceAdminBtn = document.getElementById('announcement-admin-actions');
+            if (announceAdminBtn) {
+                if (role === 'admin') {
+                    announceAdminBtn.classList.remove('hidden');
+                } else {
+                    announceAdminBtn.classList.add('hidden');
+                }
+            }
+            renderAnnouncements(cachedAnnouncements);
+
+            // 3. Update all sidebar nav items
+            document.querySelectorAll('.nav-item').forEach(btn => {
+                const screenId = btn.getAttribute('data-nav');
+                if (!screenId) return;
+
+                const isAllowed = perms.allowedScreens.includes(screenId);
+                const oldLock = btn.querySelector('.nav-lock-badge');
+                if (oldLock) oldLock.remove();
+
+                if (isAllowed) {
+                    btn.classList.remove('opacity-40');
+                    btn.classList.add('cursor-pointer');
+                    btn.removeAttribute('data-restricted');
+                } else {
+                    btn.classList.add('opacity-40');
+                    btn.setAttribute('data-restricted', 'true');
+                    const lockBadge = document.createElement('span');
+                    lockBadge.className = 'nav-lock-badge ml-auto flex items-center text-[9px] text-slate-400 font-bold';
+                    lockBadge.innerHTML = `<i class="fa-solid fa-lock text-[8px] mr-1"></i>`;
+                    btn.appendChild(lockBadge);
+                }
+            });
+        }
+
+        // Cross-Tab Live Synchronization
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'medivault_live_stock_sync' && e.newValue) {
+                try {
+                    const data = JSON.parse(e.newValue);
+                    if (data.catalog && Array.isArray(data.catalog)) {
+                        cachedCatalog = data.catalog;
+                        renderCatalog(cachedCatalog);
+                    }
+                    if (data.inventory && Array.isArray(data.inventory)) {
+                        cachedInventory = data.inventory;
+                        renderPortalInventory(cachedInventory);
+                        populateDispensingDropdown(cachedInventory);
+                    }
+                } catch (err) {}
+            }
+        });
+
+        // Background Live Polling Heartbeat (Detects backend and multi-client changes)
+        let liveSyncInterval = null;
+        function startLiveSyncHeartbeat() {
+            if (liveSyncInterval) clearInterval(liveSyncInterval);
+            liveSyncInterval = setInterval(async () => {
+                if (!currentUser || !isBackendAvailable()) return;
+                try {
+                    const res = await quickFetch('/api/inventory', {}, 600);
+                    if (res && res.ok) {
+                        const json = await res.json();
+                        if (json.success && Array.isArray(json.data)) {
+                            const curHash = cachedInventory.map(b => `${b.batch_id}:${b.batch_quantity}`).join('|');
+                            const newHash = json.data.map(b => `${b.batch_id}:${b.batch_quantity}`).join('|');
+                            if (curHash !== newHash) {
+                                cachedInventory = json.data;
+                                renderPortalInventory(cachedInventory);
+                                populateDispensingDropdown(cachedInventory);
+                            }
+                        }
+                    }
+                    const catRes = await quickFetch('/api/catalog', {}, 600);
+                    if (catRes && catRes.ok) {
+                        const catJson = await catRes.json();
+                        if (catJson.success && Array.isArray(catJson.data)) {
+                            const curCatHash = cachedCatalog.map(c => `${c.id}:${c.total_vault_stock}`).join('|');
+                            const newCatHash = catJson.data.map(c => `${c.id}:${c.total_vault_stock}`).join('|');
+                            if (curCatHash !== newCatHash) {
+                                cachedCatalog = catJson.data;
+                                renderCatalog(cachedCatalog);
+                            }
+                        }
+                    }
+                } catch (e) {}
+            }, 3000);
+        }
+
         function establishSession(user) {
             currentUser = user;
 
             // Update Header (Pages 9-15 Wireframe)
             document.getElementById('header-user-name').textContent = user.username;
-            document.getElementById('header-user-role').textContent = user.roleTitle + ' (Full Access)';
 
             const initials = (user.fullName || user.username).split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase();
             document.getElementById('header-avatar').textContent = initials;
@@ -1679,7 +1905,7 @@
             // Update Profile Screen (Page 9 Wireframe)
             document.getElementById('profile-display-name').textContent = user.fullName;
             document.getElementById('profile-display-meta').textContent = `Badge ID: #${user.badgeId} • Department: ${user.department}`;
-            document.getElementById('profile-display-role').textContent = `${user.roleTitle} Schedule II / Narcotics Clearance`;
+            document.getElementById('profile-display-role').textContent = user.roleTitle;
             document.getElementById('profile-display-tier').textContent = user.securityTier;
             document.getElementById('profile-input-fullname').value = user.fullName;
             document.getElementById('profile-input-email').value = user.email;
@@ -1689,17 +1915,24 @@
             const dispAuth = document.getElementById('dispense-authorizer');
             if (dispAuth) dispAuth.value = `${user.fullName} (#${user.badgeId})`;
 
+            // Apply Role-Based Access Control and adjust sidebar
+            applyRolePermissions(user);
+
             // Transition Screen
             document.getElementById('screen-login').classList.add('hidden');
             document.getElementById('screen-dashboard').classList.remove('hidden');
-            switchScreen('staff-portal');
 
-            showToast('Welcome to MediVault, ' + user.username, 'info');
+            const perms = ROLE_PERMISSIONS[user.role] || ROLE_PERMISSIONS.doctor;
+            switchScreen(perms.defaultScreen);
+
+            showToast(`Signed in: ${user.fullName} (${perms.name})`, 'info');
 
             loadDynamicData();
+            startLiveSyncHeartbeat();
         }
 
         function handleLogout() {
+            if (liveSyncInterval) clearInterval(liveSyncInterval);
             currentUser = null;
             pendingMfaUser = null;
             document.getElementById('screen-dashboard').classList.add('hidden');
@@ -1708,8 +1941,17 @@
             showToast('Session terminated safely.', 'info');
         }
 
-        // Screen Switching
+        // Screen Switching with Strict RBAC Guard
         function switchScreen(screenId) {
+            const role = (currentUser && currentUser.role) ? currentUser.role : 'doctor';
+            const perms = ROLE_PERMISSIONS[role] || ROLE_PERMISSIONS.doctor;
+
+            if (!perms.allowedScreens.includes(screenId)) {
+                const screenTitle = SCREEN_NAMES[screenId] || screenId;
+                showToast(`Access Restricted: ${perms.name} (${perms.tier}) cannot access "${screenTitle}". ${perms.deniedReason}`, 'warning');
+                return;
+            }
+
             document.querySelectorAll('.screen-view').forEach(el => el.classList.add('hidden'));
             const target = document.getElementById('view-' + screenId);
             if (target) {
@@ -1743,16 +1985,17 @@
             fetchCatalog();
             fetchStaff();
             loadAuditLogs();
+            fetchAnnouncements();
         }
 
         async function fetchInventory(wardFilter = 'ALL') {
-            try {
-                let url = '/api/inventory';
-                if (wardFilter && wardFilter !== 'ALL') {
-                    url += `?ward=${encodeURIComponent(wardFilter)}`;
-                }
-                const res = await fetch(url);
-                if (res.ok) {
+            let url = '/api/inventory';
+            if (wardFilter && wardFilter !== 'ALL') {
+                url += `?ward=${encodeURIComponent(wardFilter)}`;
+            }
+            const res = await quickFetch(url, {}, 800);
+            if (res && res.ok) {
+                try {
                     const json = await res.json();
                     if (json.success) {
                         cachedInventory = json.data;
@@ -1760,9 +2003,7 @@
                         populateDispensingDropdown(cachedInventory);
                         return;
                     }
-                }
-            } catch (e) {
-                // Static host fallback
+                } catch (e) {}
             }
 
             let list = [...STATIC_INVENTORY];
@@ -1839,18 +2080,16 @@
         }
 
         async function fetchCatalog() {
-            try {
-                const res = await fetch('/api/catalog');
-                if (res.ok) {
+            const res = await quickFetch('/api/catalog', {}, 800);
+            if (res && res.ok) {
+                try {
                     const json = await res.json();
                     if (json.success) {
                         cachedCatalog = json.data;
                         renderCatalog(cachedCatalog);
                         return;
                     }
-                }
-            } catch (e) {
-                // Static host fallback
+                } catch (e) {}
             }
             cachedCatalog = [...STATIC_CATALOG];
             renderCatalog(cachedCatalog);
@@ -1877,45 +2116,130 @@
             `).join('');
         }
 
-        async function adjustCatalogStock(itemId, delta) {
-            try {
-                const res = await fetch('/api/inventory/adjust', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ itemId, deltaQuantity: delta })
-                });
-                if (res.ok) {
-                    const data = await res.json();
-                    if (data.success) {
-                        showToast('Catalog stock adjusted.', 'info');
-                        fetchCatalog();
-                        fetchInventory();
-                        return;
+        // ==========================================
+        // UNIFIED LIVE STOCK SYNCHRONIZATION ENGINE
+        // ==========================================
+
+        function applyStockDelta(itemId, batchId, delta, options = {}) {
+            itemId = Number(itemId);
+            if (batchId) batchId = Number(batchId);
+
+            // 1. Locate items in both cached lists
+            let item = cachedCatalog.find(c => c.id === itemId);
+            let batch = cachedInventory.find(b => (batchId && b.batch_id === batchId) || b.item_id === itemId);
+
+            if (!item && batch) {
+                item = cachedCatalog.find(c => c.id === batch.item_id);
+            }
+
+            // 2. Optimistic Mutation in Catalog (Immediate 0ms)
+            if (item) {
+                item.total_vault_stock = Math.max(0, (Number(item.total_vault_stock) || 0) + delta);
+            }
+
+            // 3. Optimistic Mutation in Inventory Batches (Immediate 0ms)
+            if (batch) {
+                batch.batch_quantity = Math.max(0, (Number(batch.batch_quantity) || 0) + delta);
+                batch.total_vault_stock = item ? item.total_vault_stock : batch.batch_quantity;
+                if (batch.batch_quantity <= 0) {
+                    batch.batch_status = 'Depleted';
+                } else if (batch.batch_quantity <= (batch.min_reorder_level || 5)) {
+                    batch.batch_status = 'Low Stock Alert';
+                } else {
+                    batch.batch_status = 'Optimal';
+                }
+            } else if (item) {
+                // Adjust matching batch by item_id if batchId wasn't specific
+                const matchingBatches = cachedInventory.filter(b => b.item_id === item.id);
+                if (matchingBatches.length > 0) {
+                    matchingBatches[0].batch_quantity = Math.max(0, (Number(matchingBatches[0].batch_quantity) || 0) + delta);
+                    matchingBatches[0].total_vault_stock = item.total_vault_stock;
+                    if (matchingBatches[0].batch_quantity <= 0) matchingBatches[0].batch_status = 'Depleted';
+                    else if (matchingBatches[0].batch_quantity <= (matchingBatches[0].min_reorder_level || 5)) matchingBatches[0].batch_status = 'Low Stock Alert';
+                    else matchingBatches[0].batch_status = 'Optimal';
+                }
+            }
+
+            // 4. Update Optical Barcode Scanner View live if current item is scanned
+            if (lastScannedItem && (lastScannedItem.id === itemId || lastScannedItem.item_id === itemId || (batch && lastScannedItem.batch_id === batch.batch_id))) {
+                const updatedQty = batch ? batch.batch_quantity : (item ? item.total_vault_stock : 0);
+                lastScannedItem.batch_quantity = updatedQty;
+                lastScannedItem.total_vault_stock = item ? item.total_vault_stock : updatedQty;
+                const stockEl = document.getElementById('scan-item-stock');
+                if (stockEl) {
+                    stockEl.textContent = `Total Vault Stock: ${updatedQty} units (${lastScannedItem.ward || 'ICU Critical Care'})`;
+                }
+                const altBox = document.getElementById('scan-item-alternatives');
+                if (altBox) {
+                    if (updatedQty <= (lastScannedItem.min_reorder_level || 5)) {
+                        altBox.classList.remove('hidden');
+                    } else {
+                        altBox.classList.add('hidden');
                     }
                 }
+            }
+
+            // 5. Instant Synchronous UI Re-render across all views
+            renderPortalInventory(cachedInventory);
+            renderCatalog(cachedCatalog);
+            populateDispensingDropdown(cachedInventory);
+
+            // 6. Multi-tab synchronization broadcast
+            try {
+                localStorage.setItem('medivault_live_stock_sync', JSON.stringify({
+                    timestamp: Date.now(),
+                    itemId,
+                    batchId,
+                    delta,
+                    catalog: cachedCatalog,
+                    inventory: cachedInventory
+                }));
             } catch (err) {}
 
-            // Static fallback
-            const item = cachedCatalog.find(c => c.id === itemId);
-            if (item) {
-                item.total_vault_stock = Math.max(0, item.total_vault_stock + delta);
-                renderCatalog(cachedCatalog);
-                showToast('Catalog stock adjusted.', 'info');
+            return { item, batch };
+        }
+
+        async function adjustCatalogStock(itemId, delta) {
+            if (currentUser && !['admin', 'pharmacist'].includes(currentUser.role)) {
+                showToast('Action Denied: Master catalog stock adjustments require Licensed Pharmacist clearance.', 'warning');
+                return;
+            }
+
+            // 1. Instant optimistic update (0ms UI latency)
+            const { item } = applyStockDelta(itemId, null, delta);
+            const itemName = item ? item.item_name : `Item #${itemId}`;
+            showToast(`${itemName} stock ${delta > 0 ? '+'+delta : delta} (Balance: ${item ? item.total_vault_stock : ''} units)`, 'info');
+
+            // 2. Background server synchronization
+            if (isBackendAvailable()) {
+                try {
+                    const res = await quickFetch('/api/inventory/adjust', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ itemId, delta })
+                    }, 1000);
+                    if (res && res.ok) {
+                        const data = await res.json();
+                        if (data.newStock !== undefined && item && item.total_vault_stock !== data.newStock) {
+                            item.total_vault_stock = data.newStock;
+                            renderCatalog(cachedCatalog);
+                        }
+                    }
+                } catch (e) {}
             }
         }
 
         async function fetchStaff() {
-            try {
-                const res = await fetch('/api/staff');
-                if (res.ok) {
+            const res = await quickFetch('/api/staff', {}, 800);
+            if (res && res.ok) {
+                try {
                     const json = await res.json();
                     if (json.success) {
                         renderStaff(json.data);
                         return;
                     }
-                }
-            } catch (e) {}
-
+                } catch (e) {}
+            }
             renderStaff(STATIC_STAFF);
         }
 
@@ -1947,9 +2271,9 @@
         }
 
         async function loadAuditLogs() {
-            try {
-                const res = await fetch('/api/audit-logs');
-                if (res.ok) {
+            const res = await quickFetch('/api/audit-logs', {}, 800);
+            if (res && res.ok) {
+                try {
                     const json = await res.json();
                     if (json.success) {
                         const tbody = document.getElementById('table-audit-logs');
@@ -1969,8 +2293,8 @@
                             </tr>
                         `).join('');
                     }
-                }
-            } catch (e) {}
+                } catch (e) {}
+            }
         }
 
         // Optical Barcode Scanner Simulator (Wireframe Page 9)
@@ -2029,50 +2353,49 @@
                 return;
             }
             await quickDeductRow(null, lastScannedItem.batch_id, lastScannedItem.item_id || lastScannedItem.id, 1);
-            showToast('1 unit deducted and audited in central MediVault vault.', 'info');
         }
 
         async function quickDeductRow(btn, batchId, itemId, count) {
-            try {
-                const res = await fetch('/api/inventory/dispense', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        itemId,
-                        batchId,
-                        quantity: count,
-                        ward: 'ICU Critical Care',
-                        authorizingStaff: currentUser ? currentUser.fullName : 'Dr. Elena Vance',
-                        authorizingBadge: currentUser ? currentUser.badgeId : 'STF-0192'
-                    })
-                });
-                if (res.ok) {
-                    const data = await res.json();
-                    if (data.success) {
-                        showToast('Stock deducted by ' + count + ' unit(s).', 'info');
-                        fetchInventory();
-                        fetchCatalog();
-                        loadAuditLogs();
-                        return;
-                    }
-                }
-            } catch (err) {}
+            if (currentUser && currentUser.role === 'finance') {
+                showToast('Action Denied: Financial personnel do not hold clinical dispensing clearance.', 'warning');
+                return;
+            }
 
-            // Static fallback
-            const batch = cachedInventory.find(b => b.batch_id === batchId || b.item_id === itemId);
-            if (batch) {
-                batch.batch_quantity = Math.max(0, batch.batch_quantity - count);
-                if (batch.batch_quantity <= 5) batch.batch_status = 'Low Stock Alert';
-                renderPortalInventory(cachedInventory);
-                showToast('Stock deducted by ' + count + ' unit(s).', 'info');
+            // 1. Instant optimistic update (0ms UI latency)
+            const { item, batch } = applyStockDelta(itemId, batchId, -count);
+            const itemName = (batch && batch.item_name) || (item && item.item_name) || 'Medication';
+            const remaining = batch ? batch.batch_quantity : (item ? item.total_vault_stock : 0);
+            showToast(`Dispensed ${count} unit of ${itemName} (Remaining: ${remaining} units)`, 'success');
+
+            // 2. Background server synchronization
+            if (isBackendAvailable()) {
+                try {
+                    await quickFetch('/api/inventory/dispense', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            itemId,
+                            batchId,
+                            quantity: count,
+                            ward: batch ? batch.ward : 'ICU Critical Care',
+                            authorizingStaff: currentUser ? currentUser.fullName : 'Dr. Elena Vance',
+                            authorizingBadge: currentUser ? currentUser.badgeId : 'STF-0192'
+                        })
+                    }, 1000);
+                    loadAuditLogs();
+                } catch (e) {}
             }
         }
 
         // Form Submit Handlers
         async function handleDispenseSubmit(e) {
             e.preventDefault();
-            const itemId = document.getElementById('dispense-item').value;
-            const quantity = parseInt(document.getElementById('dispense-qty').value, 10);
+            if (currentUser && !['doctor', 'pharmacist', 'admin'].includes(currentUser.role)) {
+                showToast('Action Denied: Direct Schedule II dispensation requires Attending Physician or Licensed Pharmacist sign-off.', 'warning');
+                return;
+            }
+            const itemId = parseInt(document.getElementById('dispense-item').value, 10);
+            const quantity = parseInt(document.getElementById('dispense-qty').value, 10) || 1;
             const ward = document.getElementById('dispense-ward').value;
 
             if (!itemId) {
@@ -2080,33 +2403,28 @@
                 return;
             }
 
-            try {
-                const res = await fetch('/api/inventory/dispense', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        itemId,
-                        quantity,
-                        ward,
-                        authorizingStaff: currentUser ? currentUser.fullName : 'Dr. Elena Vance'
-                    })
-                });
-                if (res.ok) {
-                    showToast(`Dispensed ${quantity} unit(s) to ${ward}.`, 'info');
-                    fetchInventory();
-                    fetchCatalog();
-                    loadAuditLogs();
-                    return;
-                }
-            } catch (err) {}
+            // 1. Instant optimistic update (0ms UI latency)
+            const { item } = applyStockDelta(itemId, null, -quantity);
+            const itemName = item ? item.item_name : 'Medication';
+            closeModal('dispense-modal');
+            showToast(`Dispensed ${quantity} unit(s) of ${itemName} to ${ward}.`, 'success');
 
-            // Static fallback
-            const batch = cachedInventory.find(b => b.item_id == itemId);
-            if (batch) {
-                batch.batch_quantity = Math.max(0, batch.batch_quantity - quantity);
-                renderPortalInventory(cachedInventory);
+            // 2. Background server synchronization
+            if (isBackendAvailable()) {
+                try {
+                    await quickFetch('/api/inventory/dispense', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            itemId,
+                            quantity,
+                            ward,
+                            authorizingStaff: currentUser ? currentUser.fullName : 'Dr. Elena Vance'
+                        })
+                    }, 1000);
+                    loadAuditLogs();
+                } catch (e) {}
             }
-            showToast(`Dispensed ${quantity} unit(s) to ${ward}.`, 'info');
         }
 
         async function handleWardReqSubmit(e) {
@@ -2169,8 +2487,9 @@
                 });
             } catch (err) {}
 
+            const newId = cachedCatalog.length + 1;
             cachedCatalog.push({
-                id: cachedCatalog.length + 1,
+                id: newId,
                 ndc_code: ndcCode,
                 item_name: itemName,
                 category: category,
@@ -2178,7 +2497,24 @@
                 total_vault_stock: initialStock,
                 min_reorder_level: 15
             });
+            cachedInventory.push({
+                batch_id: cachedInventory.length + 1,
+                item_id: newId,
+                item_name: itemName,
+                generic_name: itemName,
+                ndc_code: ndcCode,
+                category: category,
+                ward: 'Central Pharmacy Vault',
+                lot_number: 'LOT-' + Math.floor(1000 + Math.random() * 9000),
+                expiration_date: '2028-12-31',
+                batch_quantity: initialStock,
+                total_vault_stock: initialStock,
+                min_reorder_level: 15,
+                batch_status: 'Optimal'
+            });
             renderCatalog(cachedCatalog);
+            renderPortalInventory(cachedInventory);
+            populateDispensingDropdown(cachedInventory);
 
             closeModal('add-item-modal');
             showToast('Successfully enrolled new SKU: ' + itemName, 'info');
@@ -2269,6 +2605,244 @@
             showToast('Role permissions window updated.', 'info');
         }
 
+        // ==========================================
+        // ANNOUNCEMENTS CRUD ENGINE (Admin Authorized)
+        // ==========================================
+        async function fetchAnnouncements() {
+            const res = await quickFetch('/api/announcements', {}, 800);
+            if (res && res.ok) {
+                try {
+                    const json = await res.json();
+                    if (json.success && Array.isArray(json.data)) {
+                        cachedAnnouncements = json.data;
+                        renderAnnouncements(cachedAnnouncements);
+                        return;
+                    }
+                } catch (e) {}
+            }
+            renderAnnouncements(cachedAnnouncements);
+        }
+
+        function renderAnnouncements(items) {
+            const feed = document.getElementById('announcements-feed');
+            if (!feed) return;
+
+            if (!items || items.length === 0) {
+                feed.innerHTML = `
+                    <div class="med-card p-8 text-center text-slate-400">
+                        <i class="fa-solid fa-bullhorn text-2xl mb-2 opacity-50"></i>
+                        <p class="text-xs font-medium">No announcements published at this time.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const isAdmin = currentUser && currentUser.role === 'admin';
+
+            // Badge color helper
+            const colorClasses = {
+                rose: { border: 'border-rose-200/90', badgeBg: 'bg-rose-50 text-rose-700 border-rose-200' },
+                amber: { border: 'border-amber-200/90', badgeBg: 'bg-amber-50 text-amber-700 border-amber-200' },
+                emerald: { border: 'border-emerald-200/90', badgeBg: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
+                medical: { border: 'border-medical-200/90', badgeBg: 'bg-medical-50 text-medical-700 border-medical-200' }
+            };
+
+            feed.innerHTML = items.map(a => {
+                const colorTone = colorClasses[a.badge_color || a.badgeColor] || colorClasses.medical;
+                const isPinned = a.pinned == 1 || a.pinned === true;
+                const badgeLabel = a.badge || (isPinned ? `Pinned • ${a.category}` : a.category);
+                const safeDate = a.created_at || 'Just now';
+                const safeAuthor = a.posted_by || a.postedBy || 'Administration';
+
+                return `
+                    <div class="med-card ${colorTone.border} p-5 transition-all relative group" id="announce-card-${a.id}">
+                        <div class="flex items-start justify-between gap-3 mb-2">
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold ${colorTone.badgeBg} border">
+                                    ${isPinned ? '<i class="fa-solid fa-thumbtack text-[9px] mr-1"></i>' : ''}${badgeLabel}
+                                </span>
+                                <span class="text-[11px] text-slate-400 font-normal">
+                                    By <span class="font-medium text-slate-600">${safeAuthor}</span> • ${safeDate}
+                                </span>
+                            </div>
+
+                            ${isAdmin ? `
+                                <div class="flex items-center gap-1.5 opacity-90 group-hover:opacity-100 transition-opacity">
+                                    <button onclick="editAnnouncementModal(${a.id})" class="px-2 py-1 rounded-lg border border-slate-200 text-slate-600 hover:text-medical-700 hover:border-medical-300 hover:bg-medical-50/50 text-[11px] font-semibold transition-colors flex items-center gap-1" title="Edit Announcement">
+                                        <i class="fa-solid fa-pen text-[10px]"></i>
+                                        <span>Edit</span>
+                                    </button>
+                                    <button onclick="deleteAnnouncement(${a.id})" class="px-2 py-1 rounded-lg border border-rose-200 text-rose-600 hover:text-white hover:bg-rose-600 text-[11px] font-semibold transition-colors flex items-center gap-1" title="Delete Announcement">
+                                        <i class="fa-solid fa-trash-can text-[10px]"></i>
+                                        <span>Delete</span>
+                                    </button>
+                                </div>
+                            ` : ''}
+                        </div>
+                        <h3 class="font-bold text-slate-900 text-sm mb-1">${a.title}</h3>
+                        <p class="text-xs text-slate-600 leading-relaxed font-normal whitespace-pre-line">${a.content}</p>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openAnnouncementModal(editId = null) {
+            if (!currentUser || currentUser.role !== 'admin') {
+                showToast('Action Denied: Publishing or editing announcements requires Administrator privileges.', 'error');
+                return;
+            }
+
+            const modalTitle = document.getElementById('announcement-modal-title');
+            const editIdInput = document.getElementById('announce-edit-id');
+            const titleInput = document.getElementById('announce-title');
+            const categorySelect = document.getElementById('announce-category');
+            const badgeColorSelect = document.getElementById('announce-badge-color');
+            const contentTextarea = document.getElementById('announce-content');
+            const pinnedCheckbox = document.getElementById('announce-pinned');
+            const submitBtnText = document.querySelector('#announce-submit-btn span');
+
+            if (editId) {
+                const item = cachedAnnouncements.find(a => String(a.id) === String(editId));
+                if (!item) return;
+
+                modalTitle.textContent = 'Edit System Announcement';
+                editIdInput.value = item.id;
+                titleInput.value = item.title;
+                categorySelect.value = item.category || 'General Notice';
+                badgeColorSelect.value = item.badge_color || item.badgeColor || 'medical';
+                contentTextarea.value = item.content;
+                pinnedCheckbox.checked = item.pinned == 1 || item.pinned === true;
+                if (submitBtnText) submitBtnText.textContent = 'Save Changes';
+            } else {
+                modalTitle.textContent = 'New System Announcement';
+                editIdInput.value = '';
+                document.getElementById('form-announcement').reset();
+                if (submitBtnText) submitBtnText.textContent = 'Broadcast Announcement';
+            }
+
+            const modal = document.getElementById('announcement-modal');
+            if (modal) modal.classList.remove('hidden');
+        }
+
+        function editAnnouncementModal(id) {
+            openAnnouncementModal(id);
+        }
+
+        async function handleAnnouncementSubmit(e) {
+            e.preventDefault();
+            if (!currentUser || currentUser.role !== 'admin') {
+                showToast('Unauthorized: Administrator authorization required.', 'error');
+                return;
+            }
+
+            const editId = document.getElementById('announce-edit-id').value;
+            const title = document.getElementById('announce-title').value.trim();
+            const category = document.getElementById('announce-category').value;
+            const badgeColor = document.getElementById('announce-badge-color').value;
+            const content = document.getElementById('announce-content').value.trim();
+            const pinned = document.getElementById('announce-pinned').checked ? 1 : 0;
+            const postedBy = currentUser.fullName || 'Hospital Administration';
+            const badge = pinned ? `Pinned • ${category}` : category;
+
+            const payload = {
+                title,
+                category,
+                badgeColor,
+                badge,
+                content,
+                pinned,
+                postedBy
+            };
+
+            if (editId) {
+                // UPDATE (PUT)
+                const targetId = parseInt(editId, 10) || editId;
+                const idx = cachedAnnouncements.findIndex(a => String(a.id) === String(targetId));
+                if (idx !== -1) {
+                    cachedAnnouncements[idx] = {
+                        ...cachedAnnouncements[idx],
+                        ...payload,
+                        badge_color: badgeColor,
+                        posted_by: postedBy
+                    };
+                }
+
+                closeModal('announcement-modal');
+                renderAnnouncements(cachedAnnouncements);
+
+                try {
+                    await quickFetch(`/api/announcements/${targetId}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                } catch (err) {}
+
+                showToast('Announcement updated successfully.', 'success');
+            } else {
+                // CREATE (POST)
+                const newId = Date.now();
+                const newRecord = {
+                    id: newId,
+                    ...payload,
+                    badge_color: badgeColor,
+                    posted_by: postedBy,
+                    created_at: 'Today, Just now'
+                };
+
+                if (pinned) {
+                    cachedAnnouncements.unshift(newRecord);
+                } else {
+                    cachedAnnouncements.push(newRecord);
+                }
+
+                closeModal('announcement-modal');
+                renderAnnouncements(cachedAnnouncements);
+
+                try {
+                    const res = await quickFetch('/api/announcements', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    if (res && res.ok) {
+                        const json = await res.json();
+                        if (json.id) {
+                            newRecord.id = json.id;
+                        }
+                    }
+                } catch (err) {}
+
+                showToast('Announcement broadcasted to bulletin board.', 'success');
+            }
+        }
+
+        async function deleteAnnouncement(id) {
+            if (!currentUser || currentUser.role !== 'admin') {
+                showToast('Action Denied: Only Hospital Administrators can delete announcements.', 'error');
+                return;
+            }
+
+            const item = cachedAnnouncements.find(a => String(a.id) === String(id));
+            const confirmTitle = item ? `"${item.title.slice(0, 35)}..."` : 'this announcement';
+
+            if (!confirm(`Are you sure you want to delete ${confirmTitle}? This action cannot be undone.`)) {
+                return;
+            }
+
+            // Optimistic update
+            cachedAnnouncements = cachedAnnouncements.filter(a => String(a.id) !== String(id));
+            renderAnnouncements(cachedAnnouncements);
+
+            try {
+                await quickFetch(`/api/announcements/${id}`, {
+                    method: 'DELETE'
+                });
+            } catch (err) {}
+
+            showToast('Announcement removed from bulletin board.', 'info');
+        }
+
         function handleGlobalSearch(e) {
             const q = e.target.value.toLowerCase().trim();
             if (!q) {
@@ -2289,6 +2863,18 @@
 
         // Modals & Toasts
         function openModal(id) {
+            if (id === 'add-access-modal' && currentUser && currentUser.role !== 'admin') {
+                showToast('Action Denied: Granting staff credentials requires Super Administrator (Tier 5) privileges.', 'error');
+                return;
+            }
+            if (id === 'add-employee-modal' && currentUser && currentUser.role !== 'admin') {
+                showToast('Action Denied: Registering staff records requires Administrator privileges.', 'error');
+                return;
+            }
+            if (id === 'add-sku-modal' && currentUser && !['admin', 'pharmacist'].includes(currentUser.role)) {
+                showToast('Action Denied: Creating formulary items requires Central Pharmacy Vault authorization.', 'error');
+                return;
+            }
             const el = document.getElementById(id);
             if (el) el.classList.remove('hidden');
         }
@@ -2302,15 +2888,25 @@
             const container = document.getElementById('toast-container');
             const toast = document.createElement('div');
             toast.className = 'pointer-events-auto bg-slate-900/95 backdrop-blur-md text-white text-xs px-4 py-3 rounded-2xl shadow-xl flex items-center gap-3 border border-slate-700/80 transition-all';
+            
+            let iconHtml = '<i class="fa-solid fa-circle-info text-cyan-400"></i>';
+            if (type === 'error') {
+                iconHtml = '<i class="fa-solid fa-triangle-exclamation text-rose-400"></i>';
+            } else if (type === 'warning') {
+                iconHtml = '<i class="fa-solid fa-shield-halved text-amber-400"></i>';
+            } else if (type === 'success') {
+                iconHtml = '<i class="fa-solid fa-circle-check text-emerald-400"></i>';
+            }
+
             toast.innerHTML = `
-                <i class="fa-solid fa-circle-info text-cyan-400"></i>
+                ${iconHtml}
                 <span class="font-medium">${message}</span>
             `;
             container.appendChild(toast);
             setTimeout(() => {
                 toast.style.opacity = '0';
                 setTimeout(() => toast.remove(), 300);
-            }, 3200);
+            }, 3500);
         }
     </script>
 </body>

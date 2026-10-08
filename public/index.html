@@ -126,13 +126,13 @@
                         <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">Password</label>
                         <div class="relative">
                             <i class="fa-solid fa-lock absolute left-3.5 top-3.5 text-slate-400 text-sm"></i>
-                            <input id="login-pass" type="password" required value="••••••••••••"
+                            <input id="login-pass" type="password" required value="EnterpriseVault2026!"
                                 class="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-medical-600 focus:border-transparent text-sm"
                                 placeholder="••••••••">
                         </div>
                     </div>
 
-                    <div>
+                    <div class="hidden">
                         <label class="block text-xs font-semibold uppercase tracking-wider text-slate-600 mb-1.5">Access Role Profile</label>
                         <select id="login-role" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-medical-600 text-sm bg-white">
                             <option value="Senior Medical Officer (Full Access)">Senior Medical Officer (Full Access)</option>
@@ -330,7 +330,7 @@
                             <p class="text-xs text-slate-500 mt-0.5">Scan clinical items, verify lot/expiration dates, and submit immediate ward requisitions.</p>
                         </div>
                         <div class="flex items-center gap-2">
-                            <button onclick="openModal('req-modal')" class="bg-medical-700 hover:bg-medical-600 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-sm transition-all flex items-center gap-2">
+                            <button onclick="openRequisitionModal()" class="bg-medical-700 hover:bg-medical-600 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-sm transition-all flex items-center gap-2">
                                 <i class="fa-solid fa-plus"></i>
                                 <span>Process Ward Request</span>
                             </button>
@@ -350,11 +350,8 @@
                                 </div>
                             </div>
                             <div class="flex items-center gap-2 w-full md:w-auto">
-                                <select id="scanner-preset" class="text-xs px-3 py-2.5 rounded-xl border border-slate-300 bg-white">
-                                    <option value="NDC-004-981|Epinephrine Auto-Injector">Epinephrine 1mg/mL Auto-Inj</option>
-                                    <option value="NDC-008-312|Surgical N95 Respirator Pack">Surgical N95 Respirators (Box 20)</option>
-                                    <option value="NDC-012-774|Propofol 10mg/mL Vial">Propofol Emulsion 20mL Vial</option>
-                                    <option value="NDC-019-442|Heparin Sodium 5000U">Heparin Sodium 5,000 U/mL</option>
+                                <select id="scanner-preset" class="text-xs px-3 py-2.5 rounded-xl border border-slate-300 bg-white max-w-[260px]">
+                                    <option value="">Loading...</option>
                                 </select>
                                 <button onclick="simulateScanItem()" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold px-4 py-2.5 rounded-xl transition-all flex items-center gap-2">
                                     <i class="fa-solid fa-wand-magic-sparkles text-cyan-400">></i>
@@ -412,6 +409,33 @@
                                 </thead>
                                 <tbody class="divide-y divide-slate-100" id="portal-inventory-tbody">
                                     <tr><td colspan="8" class="py-6 px-4 text-center text-slate-400">Loading inventory...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                
+                    <!-- Ward Requisitions -->
+                    <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+                        <div class="px-5 py-4 border-b border-slate-100 flex items-center justify-between">
+                            <h3 class="font-bold text-slate-900 text-sm">Recent Ward Requisitions</h3>
+                            <span class="text-[11px] text-slate-400">Latest 10 requests</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs">
+                                <thead class="bg-slate-50 text-slate-500 uppercase tracking-wider text-[10px]">
+                                    <tr>
+                                        <th class="py-3 px-4 font-semibold">Item</th>
+                                        <th class="py-3 px-4 font-semibold">Qty</th>
+                                        <th class="py-3 px-4 font-semibold">Ward</th>
+                                        <th class="py-3 px-4 font-semibold">Priority</th>
+                                        <th class="py-3 px-4 font-semibold">Requested By</th>
+                                        <th class="py-3 px-4 font-semibold">Requested At</th>
+                                        <th class="py-3 px-4 font-semibold">Status</th>
+                                        <th class="py-3 px-4 font-semibold text-right">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="requisition-tbody" class="divide-y divide-slate-100">
+                                    <tr><td colspan="8" class="py-6 px-4 text-center text-slate-400">Loading requisitions...</td></tr>
                                 </tbody>
                             </table>
                         </div>
@@ -968,7 +992,7 @@
                             <h2 class="text-2xl font-bold text-slate-900">Master Inventory Catalog & Stock Adjustment</h2>
                             <p class="text-xs text-slate-500 mt-0.5">Add new pharmaceutical items or manually adjust stock quantities.</p>
                         </div>
-                        <button onclick="openModal('add-item-modal')" class="bg-medical-700 hover:bg-medical-600 text-white text-xs font-semibold px-4 py-2.5 rounded-xl">
+                        <button id="btn-add-sku" onclick="openModal('add-item-modal')" class="bg-medical-700 hover:bg-medical-600 text-white text-xs font-semibold px-4 py-2.5 rounded-xl">
                             <i class="fa-solid fa-plus mr-1.5"></i>Add New Item SKU
                         </button>
                     </div>
@@ -992,10 +1016,10 @@
                                     <td class="py-3 px-4">Emergency / Vasoactive</td>
                                     <td class="py-3 px-4">$30.00</td>
                                     <td class="py-3 px-4 font-bold text-slate-900">48 units</td>
-                                    <td class="py-3 px-4 text-right space-x-1">
-                                        <button onclick="adjustCatalogStock(this, 1)" class="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 font-bold hover:bg-emerald-100">+1</button>
-                                        <button onclick="adjustCatalogStock(this, -1)" class="px-2.5 py-1 rounded-lg bg-rose-50 text-rose-700 font-bold hover:bg-rose-100">-1</button>
-                                    </td>
+                                    <td class="py-3 px-4 text-right space-x-1">${can('catalogEdit') ? `
+                            <button onclick="adjustCatalogStock(${i.id}, 1)" class="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-700 font-bold hover:bg-emerald-100">+1</button>
+                            <button onclick="adjustCatalogStock(${i.id}, -1)" class="px-2.5 py-1 rounded-lg bg-rose-50 text-rose-700 font-bold hover:bg-rose-100">-1</button>` : '<span class="text-slate-300">View only</span>'}
+                        </td>
                                 </tr>
                                 <tr>
                                     <td class="py-3 px-4 font-mono">012-774-88</td>
@@ -1120,23 +1144,50 @@
             <form onsubmit="handleWardReqSubmit(event)" class="space-y-3">
                 <div>
                     <label class="block font-semibold text-slate-700 mb-1">Requested Supply</label>
-                    <select class="w-full px-3 py-2.5 rounded-xl border border-slate-300">
-                        <option>Epinephrine 1mg/mL Auto-Inj</option>
-                        <option>Propofol Emulsion 20mL Vial</option>
-                        <option>Surgical N95 Respirators (Box 20)</option>
+                    <select id="req-item" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300">
+                        <option value="">Loading...</option>
                     </select>
                 </div>
-                <div>
-                    <label class="block font-semibold text-slate-700 mb-1">Quantity Requested</label>
-                    <input type="number" min="1" value="5" class="w-full px-3 py-2.5 rounded-xl border border-slate-300">
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Quantity Requested</label>
+                        <input id="req-qty" type="number" min="1" value="5" required class="w-full px-3 py-2.5 rounded-xl border border-slate-300">
+                    </div>
+                    <div>
+                        <label class="block font-semibold text-slate-700 mb-1">Priority</label>
+                        <select id="req-priority" class="w-full px-3 py-2.5 rounded-xl border border-slate-300">
+                            <option>Normal</option>
+                            <option>High</option>
+                            <option>Urgent</option>
+                        </select>
+                    </div>
                 </div>
                 <div>
                     <label class="block font-semibold text-slate-700 mb-1">Ward Destination</label>
-                    <input type="text" value="ICU Critical Care Ward 4" class="w-full px-3 py-2.5 rounded-xl border border-slate-300">
+                    <select id="req-ward" class="w-full px-3 py-2.5 rounded-xl border border-slate-300">
+                        <option>ICU Critical Care</option>
+                        <option>Emergency Room</option>
+                        <option>Operating Rooms</option>
+                        <option>Pediatric &amp; Outpatient</option>
+                    </select>
                 </div>
                 <div class="pt-2 flex justify-end gap-2">
                     <button type="button" onclick="closeModal('req-modal')" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 font-semibold">Cancel</button>
                     <button type="submit" class="px-4 py-2 rounded-xl bg-medical-700 text-white font-semibold">Submit Requisition</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="mfa-modal" class="fixed inset-0 z-50 hidden bg-slate-900/60 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl w-full max-w-sm p-6 shadow-2xl">
+            <h3 class="text-lg font-bold text-slate-900 mb-1">Two-Factor Authentication</h3>
+            <p class="text-xs text-slate-500 mb-4">Administrator and finance accounts require a 6-digit token.</p>
+            <form onsubmit="handleMfaSubmit(event)" class="space-y-3">
+                <input id="mfa-code" type="text" inputmode="numeric" maxlength="6" required placeholder="6-digit code (demo: 202601)" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 text-center tracking-widest">
+                <div class="flex justify-end gap-2">
+                    <button type="button" onclick="closeModal('mfa-modal')" class="px-4 py-2 rounded-xl border border-slate-200 text-slate-600 text-xs font-semibold">Cancel</button>
+                    <button type="submit" class="px-4 py-2 rounded-xl bg-medical-700 text-white text-xs font-semibold">Verify</button>
                 </div>
             </form>
         </div>
@@ -1187,30 +1238,101 @@
             showToast('Loaded demo credentials for ' + username, 'info');
         }
 
-        function handleLogin(e) {
-            e.preventDefault();
-            const username = document.getElementById('login-user').value;
-            const role = document.getElementById('login-role').value;
-            document.getElementById('header-user-name').textContent = username;
-            document.getElementById('header-user-role').textContent = role;
+        // ---- Role-based access (per paper, Section 4) ----
+        let currentUser = null;
+        const SCREENS_BY_ROLE = {
+            pharmacist: ['staff-portal','user-profile','announcements','quick-links','inv-dispensing','inventory-catalog'],
+            doctor:     ['staff-portal','user-profile','announcements','quick-links','inventory-catalog','appointment-form','booking-form'],
+            nurse:      ['staff-portal','user-profile','announcements','quick-links','inventory-catalog','appointment-form','booking-form'],
+            finance:    ['staff-portal','user-profile','announcements','quick-links','inv-analytics','inventory-catalog','financial-reports','inventory-reports'],
+            admin:      null // full access
+        };
+        function canScreen(id) { const l = SCREENS_BY_ROLE[currentUser?.role]; return !currentUser || l === null || (l && l.includes(id)); }
+        function can(action) {
+            const r = currentUser?.role;
+            if (action === 'dispense' || action === 'catalogEdit' || action === 'approve') return r === 'pharmacist' || r === 'admin';
+            if (action === 'request') return r !== 'finance';
+            return false;
+        }
+        function applyRole() {
+            document.querySelectorAll('.nav-item').forEach(b => b.classList.toggle('hidden', !canScreen(b.getAttribute('data-nav'))));
+            const add = document.getElementById('btn-add-sku'); if (add) add.classList.toggle('hidden', !can('catalogEdit'));
+            const req = document.querySelector("button[onclick='openRequisitionModal()']"); if (req) req.classList.toggle('hidden', !can('request'));
+            const q = document.querySelector("button[onclick='quickDeductFromScan()']"); if (q) q.classList.toggle('hidden', !can('dispense'));
+        }
 
+        function enterDashboard(user, screen) {
+            currentUser = user;
+            document.getElementById('header-user-name').textContent = user.username;
+            document.getElementById('header-user-role').textContent = user.roleTitle || user.role;
             document.getElementById('screen-login').classList.add('hidden');
             document.getElementById('screen-dashboard').classList.remove('hidden');
-            switchScreen('staff-portal');
-            showToast('Welcome to Mediavault, ' + username, 'info');
+            applyRole();
+            switchScreen(canScreen(screen) ? screen : 'staff-portal');
+        }
+
+        function finishLogin(user) {
+            try { sessionStorage.setItem('mv_session', JSON.stringify(user)); } catch (err) {}
+            enterDashboard(user, 'staff-portal');
+            showToast('Welcome to Mediavault, ' + user.username, 'info');
+        }
+
+        let pendingMfaUser = null;
+        async function handleLogin(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const label = btn.innerHTML; btn.disabled = true; btn.textContent = 'Authenticating...';
+            try {
+                const res = await fetch('/api/auth/login', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: document.getElementById('login-user').value.trim(), password: document.getElementById('login-pass').value })
+                });
+                const json = await res.json();
+                if (!json.success) { showToast(json.message, 'error'); return; }
+                if (json.requireMfa) { pendingMfaUser = json.username; document.getElementById('mfa-code').value = ''; openModal('mfa-modal'); return; }
+                finishLogin(json.user);
+            } catch (err) {
+                showToast('Server not reachable. Is node server.js running?', 'error');
+            } finally { btn.disabled = false; btn.innerHTML = label; }
+        }
+
+        async function handleMfaSubmit(e) {
+            e.preventDefault();
+            try {
+                const res = await fetch('/api/auth/verify-mfa', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: pendingMfaUser, code: document.getElementById('mfa-code').value.trim() })
+                });
+                const json = await res.json();
+                if (!json.success) { showToast(json.message, 'error'); return; }
+                closeModal('mfa-modal'); finishLogin(json.user);
+            } catch (err) { showToast('Server not reachable.', 'error'); }
         }
 
         function handleLogout() {
+            try { sessionStorage.removeItem('mv_session'); sessionStorage.removeItem('mv_screen'); } catch (err) {}
+            ['req-modal', 'add-item-modal', 'mfa-modal'].forEach(id => { const m = document.getElementById(id); if (m) m.classList.add('hidden'); });
+            const box = document.getElementById('scan-feedback-box'); if (box) box.classList.add('hidden');
+            scannedBatch = null; currentUser = null;
             document.getElementById('screen-dashboard').classList.add('hidden');
             document.getElementById('screen-login').classList.remove('hidden');
             showToast('Session terminated safely.', 'info');
         }
 
+        function restoreSession() {
+            try {
+                const saved = JSON.parse(sessionStorage.getItem('mv_session') || 'null');
+                if (saved && saved.username && saved.role) enterDashboard(saved, sessionStorage.getItem('mv_screen') || 'staff-portal');
+            } catch (err) {}
+        }
+
         function switchScreen(screenId) {
             // Hide all screen views
             document.querySelectorAll('.screen-view').forEach(el => el.classList.add('hidden'));
+            if (!canScreen(screenId)) { showToast('Your role does not have access to that page.', 'error'); screenId = 'staff-portal'; }
+            try { sessionStorage.setItem('mv_screen', screenId); } catch (err) {}
             if (screenId === 'inventory-catalog') loadCatalog();
-            if (screenId === 'staff-portal') loadPortalInventory();
+            if (screenId === 'staff-portal') { loadPortalInventory(); loadRequisitions(); loadScannerOptions(); }
             if (screenId === 'inv-dispensing') loadDispensingPage();
             const target = document.getElementById('view-' + screenId);
             if (target) {
@@ -1238,17 +1360,65 @@
             sidebar.classList.toggle('z-40');
         }
 
-        function simulateScanItem() {
-            const presetVal = document.getElementById('scanner-preset').value;
-            const [ndc, title] = presetVal.split('|');
-            document.getElementById('scan-item-title').textContent = 'Scanned: ' + title;
-            document.getElementById('scan-item-meta').textContent = 'NDC: ' + ndc + ' • Verified Authenticated GS1 Vial';
-            document.getElementById('scan-feedback-box').classList.remove('hidden');
-            showToast('Barcode scanned: ' + title, 'info');
+        let scannedBatch = null;
+
+        async function loadScannerOptions() {
+            const sel = document.getElementById('scanner-preset');
+            const keep = sel.value;
+            try {
+                const res = await fetch('/api/catalog');
+                const json = await res.json();
+                if (!json.success) throw new Error(json.message);
+                sel.innerHTML = json.data.map(i => `<option value="${escapeHtml(i.ndc_code)}">${escapeHtml(i.item_name)}</option>`).join('');
+                if (keep) sel.value = keep;
+            } catch (err) {
+                sel.innerHTML = '<option value="">Could not load items</option>';
+            }
         }
 
-        function quickDeductFromScan() {
-            showToast('1 unit deducted and audited in central Mediavault vault.', 'info');
+        async function simulateScanItem(quiet) {
+            const code = document.getElementById('scanner-preset').value;
+            if (!code) { showToast('No item selected to scan.', 'error'); return; }
+            try {
+                const res = await fetch('/api/inventory/scan', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code })
+                });
+                const json = await res.json();
+                if (!json.success) { showToast(json.message, 'error'); return; }
+                const it = json.item;
+                scannedBatch = { id: it.batch_id, ward: it.ward, name: it.item_name };
+                document.getElementById('scan-item-title').textContent = 'Scanned: ' + it.item_name;
+                document.getElementById('scan-item-meta').textContent =
+                    `NDC: ${it.ndc_code} • Lot #${it.lot_number} • Exp: ${it.expiration_date} • Stock Available: ${it.total_vault_stock} units` +
+                    (json.isLowStock ? ' • LOW STOCK' : '');
+                document.getElementById('scan-feedback-box').classList.remove('hidden');
+                if (!quiet) showToast('Barcode scanned: ' + it.item_name, 'info');
+            } catch (err) {
+                showToast('Server not reachable.', 'error');
+            }
+        }
+
+        async function quickDeductFromScan() {
+            if (!scannedBatch || !scannedBatch.id) { showToast('Scan an item first.', 'error'); return; }
+            try {
+                const res = await fetch('/api/inventory/dispense', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        batchId: scannedBatch.id,
+                        quantity: 1,
+                        ward: scannedBatch.ward,
+                        authorizingStaff: document.getElementById('header-user-name').textContent
+                    })
+                });
+                const json = await res.json();
+                showToast(json.message, json.success ? 'info' : 'error');
+                if (json.success) { await simulateScanItem(true); loadPortalInventory(); }
+            } catch (err) {
+                showToast('Server not reachable.', 'error');
+            }
         }
 
         function escapeHtml(t) {
@@ -1352,7 +1522,7 @@
                         <td class="py-3 px-4 font-bold ${st.text || 'text-slate-800'}">${r.batch_quantity}</td>
                         <td class="py-3 px-4"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${st.badge}">${escapeHtml(r.batch_status)}</span></td>
                         <td class="py-3 px-4 text-right">
-                            <button onclick="dispenseBatch(${r.batch_id}, 1)" class="text-medical-600 hover:text-medical-800 font-semibold bg-medical-50 hover:bg-medical-100 px-2.5 py-1 rounded-lg">Dispense</button>
+                            ${can('dispense') ? `<button onclick="dispenseBatch(${r.batch_id}, 1)" class="text-medical-600 hover:text-medical-800 font-semibold bg-medical-50 hover:bg-medical-100 px-2.5 py-1 rounded-lg">Dispense</button>` : '<span class="text-slate-300">Read-only</span>'}
                         </td>
                     </tr>`;
                 }).join('');
@@ -1522,10 +1692,87 @@
             showToast('Equipment reservation confirmed.', 'info');
         }
 
-        function handleWardReqSubmit(e) {
+        async function openRequisitionModal() {
+            openModal('req-modal');
+            const sel = document.getElementById('req-item');
+            try {
+                const res = await fetch('/api/catalog');
+                const json = await res.json();
+                if (!json.success) throw new Error(json.message);
+                const keep = sel.value;
+                sel.innerHTML = json.data.map(i => `<option value="${escapeHtml(i.item_name)}">${escapeHtml(i.item_name)}</option>`).join('');
+                if (keep) sel.value = keep;
+            } catch (err) {
+                sel.innerHTML = '<option value="">Could not load items</option>';
+            }
+        }
+
+        async function handleWardReqSubmit(e) {
             e.preventDefault();
-            closeModal('req-modal');
-            showToast('Ward requisition submitted to Lead Pharmacist.', 'info');
+            const payload = {
+                itemName: document.getElementById('req-item').value,
+                quantity: document.getElementById('req-qty').value,
+                ward: document.getElementById('req-ward').value,
+                priority: document.getElementById('req-priority').value,
+                requestedBy: (currentUser && (currentUser.fullName || currentUser.username)) || 'Ward Staff'
+            };
+            if (!payload.itemName) { showToast('Please choose a supply to request.', 'error'); return; }
+            try {
+                const res = await fetch('/api/requisitions', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+                const json = await res.json();
+                showToast(json.message, json.success ? 'info' : 'error');
+                if (json.success) { closeModal('req-modal'); loadRequisitions(); }
+            } catch (err) {
+                showToast('Server not reachable.', 'error');
+            }
+        }
+
+        async function approveRequisition(id) {
+            try {
+                const res = await fetch('/api/requisitions/' + id + '/approve', {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ approvedBy: currentUser.fullName || currentUser.username, role: currentUser.role })
+                });
+                const json = await res.json();
+                showToast(json.message, json.success ? 'info' : 'error');
+                if (json.success) loadRequisitions();
+            } catch (err) { showToast('Server not reachable.', 'error'); }
+        }
+
+        const REQ_STATUS_STYLES = {
+            'Pending Review':             'bg-amber-100 text-amber-700',
+            'Pending Pharmacist Release': 'bg-sky-100 text-sky-700',
+            'Approved & Dispatched':      'bg-emerald-100 text-emerald-700'
+        };
+        const REQ_PRIORITY_STYLES = { 'Urgent': 'text-rose-600 font-bold', 'High': 'text-amber-600 font-semibold' };
+
+        async function loadRequisitions() {
+            const body = document.getElementById('requisition-tbody');
+            try {
+                const res = await fetch('/api/requisitions');
+                const json = await res.json();
+                if (!json.success) throw new Error(json.message);
+                if (json.data.length === 0) {
+                    body.innerHTML = '<tr><td colspan="8" class="py-6 px-4 text-center text-slate-400">No requisitions yet.</td></tr>';
+                    return;
+                }
+                body.innerHTML = json.data.slice(0, 10).map(r => `<tr class="hover:bg-slate-50/80 transition-colors">
+                    <td class="py-3 px-4 font-semibold text-slate-900">${escapeHtml(r.item_name)}</td>
+                    <td class="py-3 px-4 font-bold">${r.quantity}</td>
+                    <td class="py-3 px-4">${escapeHtml(r.ward)}</td>
+                    <td class="py-3 px-4 ${REQ_PRIORITY_STYLES[r.priority] || ''}">${escapeHtml(r.priority)}</td>
+                    <td class="py-3 px-4">${escapeHtml(r.requested_by)}</td>
+                    <td class="py-3 px-4 text-slate-500">${escapeHtml(String(r.requested_at).slice(0, 16))}</td>
+                    <td class="py-3 px-4"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${REQ_STATUS_STYLES[r.status] || 'bg-slate-100 text-slate-600'}">${escapeHtml(r.status)}</span></td>
+                    <td class="py-3 px-4 text-right">${can('approve') && r.status !== 'Approved & Dispatched' ? `<button onclick="approveRequisition(${r.id})" class="text-emerald-700 bg-emerald-50 hover:bg-emerald-100 font-semibold px-2.5 py-1 rounded-lg">Approve</button>` : ''}</td>
+                </tr>`).join('');
+            } catch (err) {
+                body.innerHTML = '<tr><td colspan="7" class="py-6 px-4 text-center text-rose-600">Could not load requisitions: ' + escapeHtml(err.message) + '</td></tr>';
+            }
         }
 
         function openModal(id) {
@@ -1550,6 +1797,8 @@
                 setTimeout(() => toast.remove(), 300);
             }, 3200);
         }
+
+        restoreSession();
     </script>
 </body>
 </html>

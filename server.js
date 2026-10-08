@@ -584,6 +584,23 @@ app.post('/api/requisitions', (req, res) => {
     }
 });
 
+// Pharmacy approves / releases a ward requisition (paper: Pharmacy Staff handle orders)
+app.post('/api/requisitions/:id/approve', (req, res) => {
+    try {
+        const { approvedBy, role } = req.body;
+        if (!['pharmacist', 'admin'].includes(role)) {
+            return res.status(403).json({ success: false, message: 'Only Pharmacy Staff or Administrators can approve requisitions.' });
+        }
+        const r = db.prepare('SELECT * FROM ward_requisitions WHERE id = ?').get(req.params.id);
+        if (!r) return res.status(404).json({ success: false, message: 'Requisition not found.' });
+        db.prepare("UPDATE ward_requisitions SET status = 'Approved & Dispatched', fulfilled_at = CURRENT_TIMESTAMP WHERE id = ?").run(r.id);
+        res.json({ success: true, message: `Requisition for ${r.quantity}x ${r.item_name} approved by ${approvedBy || 'Pharmacy'}.` });
+    } catch (err) {
+        console.error('Approve error:', err);
+        res.status(500).json({ success: false, message: 'Could not approve requisition.' });
+    }
+});
+
 // ==========================================
 // 4. PROCUREMENT & VENDOR ORDERS
 // ==========================================
